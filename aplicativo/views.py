@@ -18,4 +18,12 @@ def criar_bruxo(request):
 
 def atualizar_bruxo(request, pk):
     bruxo = get_object_or_404(PersonagemHarryPotter, pk=pk)
-    
+    if request.method == 'POST':
+        form = PersonagemForm(request.POST, instance=bruxo) 
+        if form.is_valid():
+            form.save()
+            return redirect('lista_personagens')  
+    else:
+        form = PersonagemForm(instance=bruxo)  
+    print(form)
+    return render(request, 'formulario.html', {'formulario': form})
